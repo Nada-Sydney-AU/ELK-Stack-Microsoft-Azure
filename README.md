@@ -2,11 +2,12 @@
 
 This document contains the following details:
 - Description of the Red-Team Network Topology
+- Access Policies
 - ELK Configuration
   - Beats in Use
   - Machines Being Monitored
 - How to Use the Ansible Build
-- Access Policies
+
 
 ### Description of the Topology
 This repository includes code defining the infrastructure below. 
