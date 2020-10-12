@@ -11,7 +11,7 @@ This document contains the following details:
 ### Description of the Topology
 This repository includes code defining the infrastructure below. 
 
-![Red-Team-Microsoft-Azure](Images/Red-Team_AZURE_NRM.png)
+![Red-Team-Microsoft-Azure](Network Diagrams/Red-Team_AZURE_NRM.png)
 
 The main purpose of this network is to expose a load-balanced and monitored instance of DVWA, the "D*mn Vulnerable Web Application"
 
