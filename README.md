@@ -11,66 +11,68 @@ This document contains the following details:
 ### Description of the Topology
 This repository includes code defining the infrastructure below. 
 
-![Red-Team-Microsoft-Azure](Network Diagrams/Red-Team_AZURE_NRM.png)
+![Red-Team AZURE](https://github.com/Nada-Sydney-AU/ELK-Stack-Microsoft-Azure/blob/master/Network%20Diagrams/Red-Team_AZURE_NRM.png)
 
 The main purpose of this network is to expose a load-balanced and monitored instance of DVWA, the "D*mn Vulnerable Web Application"
 
-Load balancing ensures that the application will be highly **available**, in addition to restricting **inbound access** to the network. The load balancer ensures that work to process incoming traffic will be shared by both vulnerable web servers. Access controls will ensure that only authorized users — namely, ourselves — will be able to connect in the first place.
+Load balancing ensures that the application will be highly available, in addition to restricting inbound access to the network. 
 
-Integrating an ELK server allows users to easily monitor the vulnerable VMs for changes to the **file systems of the VMs on the network**, as well as watch **system metrics**, such as CPU usage; attempted SSH logins; `sudo` escalation failures; etc.
+Load balancers serve to distribute network traffic and application workloads across the Web servers so that not one is overwhelmed.
+
+Access controls ensure that only authorised users will be able connect via secure connection from the Host Machine IP to the Jump Box (Gateway VM).
+
+Integrating an ELK server allows users to easily monitor the vulnerable VMs for changes to the file systems of the VMs on the network, as well as watch system metrics, such as CPU usage; attempted SSH logins; `sudo` escalation failures.
 
 The configuration details of each machine may be found below.
 
-| Name     |   Function  | IP Address | Operating System |
-|----------|-------------|------------|------------------|
-| Jump Box | Gateway     | 10.0.0.4   | Linux            |
-| DVWA 1   | Web Server  | 10.0.0.5   | Linux            |
-| DVWA 2   | Web Server  | 10.0.0.6   | Linux            |
-| DVWA 3   | Web Server  | 10.0.0.7   | Linux            |
-| ELK      | Monitoring  | 10.1.0.4   | Linux            |
-
-In addition to the above, Azure has provisioned a **load balancer** in front of all machines except for the jump box. The load balancer's targets are organized into the following availability zones:
-- **Availability Zone 1**: DVWA 1 + DVWA 2 + DVWA 3
-- **Availability Zone 2**: ELK
-
-## ELK Server Configuration
-The ELK VM exposes an Elastic Stack instance. **Docker** is used to download and manage an ELK container.
-
-Rather than configure ELK manually, we opted to develop a reusable Ansible Playbook to accomplish the task. This playbook is duplicated below.
-
-
-To use this playbook, one must log into the Jump Box, then issue: `ansible-playbook install_elk.yml elk`. This runs the `install_elk.yml` playbook on the `elk` host.
+| Name     |   Function  | IP Address |Public IPv4   | Operating System |
+|----------|-------------|------------|--------------|------------------|
+| Jump Box | Gateway     | 10.0.0.4   |20.188.210.238| Linux            |
+| DVWA 1   | Web Server  | 10.0.0.5   |              | Linux            |
+| DVWA 2   | Web Server  | 10.0.0.6   |              | Linux            |
+| DVWA 3   | Web Server  | 10.0.0.7   |              | Linux            |
+| ELK      | Monitoring  | 10.1.0.4   |              | Linux            |
 
 ### Access Policies
 The machines on the internal network are _not_ exposed to the public Internet. 
 
-Only the **Jump Bx** machine can accept connections from the Internet. Access to this machine is only allowed from the IP address `64.72.118.76`
+Only the Jump Box machine can accept connections from the Internet. Access to this machine is only allowed from the IP address `27.33.14.54`
 
 
-Machines _within_ the network can only be accessed by **each other**. The DVWA 1, 2 and DVWA 3 VMs send traffic to the ELK server.
+Machines _within_ the network can only be accessed by each other. The DVWA VMs send traffic to the ELK server.
 
 A summary of the access policies in place can be found in the table below.
 
 | Name     | Publicly Accessible | Allowed IP Addresses |
 |----------|---------------------|----------------------|
-| Jump Box | Yes                 | 64.72.118.76         |
-| ELK      | No                  | 10.0.0.1-254         |
+| Jump Box | Yes                 | 27.33.14.54          |
+| ELK      | No                  | 10.1.0.1-254         |
 | DVWA 1   | No                  | 10.0.0.1-254         |
 | DVWA 2   | No                  | 10.0.0.1-254         |
 | DVWA 3   | No                  | 10.0.0.1-254         |
 
+## ELK Server Configuration
+The ELK VM exposes an Elastic Stack instance. **Docker** is used to download and manage an ELK container.
 
-### Elk Configuration
+To set up the ELK VM we developed a reusable Ansible Playbook to automate the configuration proccess. The Ansible Playbook we create can be resused allowing the configuration of additional VM's to be created by simply running the Playbook. 
 
 Ansible was used to automate configuration of the ELK machine. No configuration was performed manually, which is advantageous because...
 - _TODO: What is the main advantage of automating configuration with Ansible?_
 
 The playbook implements the following tasks:
-- _TODO: In 3-5 bullets, explain the steps of the ELK installation play. E.g., install Docker; download image; etc._
-- ...
-- ...
+This playbook automates the following tasks:
 
-The following screenshot displays the result of running `docker ps` after successfully configuring the ELK instance.
+ - Install docker
+ - Install apt module
+ - Install pip3
+ - Install pip module
+ - Download and launch a docker container
+
+
+Login into to Jump-box run `ansible-playbook install_elk.yml elk`
+This command runs the `install_elk.yml` playbook on the `elk` host.
+
+The following screenshot displays the result of running docker ps after successfully configuring the ELK instance. (Images/DockerPs.png)
 
 ```bash
 $ sudo docker ps
@@ -136,8 +138,11 @@ The playbook is duplicated below.
 ```
 
 ### Target Machines & Beats
-This ELK server is configured to monitor the DVWA 1, 2 and DVWA 3 VMs, at `10.0.0.5` `10.0.0.6` and `10.0.0.7`, respectively.
+This ELK server is configured to monitor the following machines:
 
+-DVWA 1 at 10.0.0.5
+-DVWA 2 at 10.0.0.6
+-DVWA 3 at 10.0.0.7
 We have installed the following Beats on these machines:
 - Filebeat
 - Metricbeat
