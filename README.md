@@ -55,20 +55,15 @@ A summary of the access policies in place can be found in the table below.
 ## ELK Server Configuration
 The ELK VM exposes an Elastic Stack instance. **Docker** is used to download and manage an ELK container.
 
-To set up the ELK VM we developed a reusable Ansible Playbook to automate the configuration proccess. The Ansible Playbook we create can be resused allowing the configuration of additional VM's to be created by simply running the Playbook. 
-
-Ansible was used to automate configuration of the ELK machine. No configuration was performed manually, which is advantageous because...
-- _TODO: What is the main advantage of automating configuration with Ansible?_
+Ansible was used to automate configuration of the ELK machine. No configuration was performed manually, which is advantageous because. To set up the ELK VM we developed a reusable Ansible Playbook to automate the configuration proccess. The Ansible Playbook we created can be resused allowing the configuration of additional VM's by simply running the Playbook. 
 
 The playbook implements the following tasks:
-This playbook automates the following tasks:
 
  - Install docker
  - Install apt module
  - Install pip3
  - Install pip module
  - Download and launch a docker container
-
 
 Login into to Jump-box run `ansible-playbook install_elk.yml elk`
 This command runs the `install_elk.yml` playbook on the `elk` host.
@@ -144,6 +139,7 @@ This ELK server is configured to monitor the following machines:
 -DVWA 1 at 10.0.0.5
 -DVWA 2 at 10.0.0.6
 -DVWA 3 at 10.0.0.7
+
 We have installed the following Beats on these machines:
 - Filebeat
 - Metricbeat
