@@ -246,6 +246,7 @@ $ nano hosts
 # There should only be one IP address
 [elkservers]
 10.1.0.4 ansible_python_interpreter=/usr/bin/python3
+```
 
 After this, the commands below run the playbook:
 
