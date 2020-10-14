@@ -78,7 +78,7 @@ CONTAINER ID        IMAGE               COMMAND                  CREATED        
 217ed9a25488        sebp/elk:761        "/usr/local/bin/star…"   6 days ago          Up Less than a second   0.0.0.0:5044->5044/tcp, 0.0.0.0:5601->5601/tcp, 0.0.0.0:9200->9200/tcp, 9300/tcp   elk
 ```
 
-(Ansible/ELK Playbook)
+[ELK Playbook](Ansible/ELK Playbook)
 
 ```yaml
 ---
