@@ -78,7 +78,7 @@ CONTAINER ID        IMAGE               COMMAND                  CREATED        
 217ed9a25488        sebp/elk:761        "/usr/local/bin/star…"   6 days ago          Up Less than a second   0.0.0.0:5044->5044/tcp, 0.0.0.0:5601->5601/tcp, 0.0.0.0:9200->9200/tcp, 9300/tcp   elk
 ```
 
-[ELK Playbook](Ansible/ELK Playbook)
+[ELK Playbook](https://github.com/Nada-Sydney-AU/ELK-Stack-Microsoft-Azure/commit/e44590f9e56a50a114e9956755c7f28641f8bf8a)
 
 ```yaml
 ---
@@ -150,7 +150,7 @@ These Beats allow us to collect the following information from each machine:
 - **Metricbeat**: Metricbeat detects changes in system metrics, such as CPU usage. We use it to detect SSH login attempts, failed `sudo` escalations, and CPU/RAM statistics.
 - **Packetbeat**: Packetbeat collects packets that pass through the NIC, similar to Wireshark. We use it to generate a trace of all activity that takes place on the network, in case later forensic analysis should be warranted.
 
-The playbook below installs Filebeat on the target hosts.
+File Beat Playbook.
 
 ```yaml
 ---
@@ -185,7 +185,7 @@ The playbook below installs Filebeat on the target hosts.
     command: service filebeat start
     ```
 
-The playbook below installs Metricbeat on the target hosts. 
+Metricbeat Playbook. 
 
 ```yaml
 ---
