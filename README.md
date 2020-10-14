@@ -150,7 +150,7 @@ These Beats allow us to collect the following information from each machine:
 - **Metricbeat**: Metricbeat detects changes in system metrics, such as CPU usage. We use it to detect SSH login attempts, failed `sudo` escalations, and CPU/RAM statistics.
 - **Packetbeat**: Packetbeat collects packets that pass through the NIC, similar to Wireshark. We use it to generate a trace of all activity that takes place on the network, in case later forensic analysis should be warranted.
 
-File Beat Playbook.
+[File Beat Playbook](https://github.com/Nada-Sydney-AU/ELK-Stack-Microsoft-Azure/commit/c32a7eb6614f2f7d13f01281c78914e88ff4268d)
 
 ```yaml
 ---
@@ -183,8 +183,41 @@ File Beat Playbook.
     # Use command module
   - name: Start filebeat service
     command: service filebeat start
-    ```
+``` 
+[Metricbeat Playbook](https://github.com/Nada-Sydney-AU/ELK-Stack-Microsoft-Azure/commit/d99d64d11d5caddb87f840d9b40f5204ad787d6c)
 
+```yaml
+---
+- name: Install metric beat
+  hosts: webservers
+  become: true
+  tasks:
+    # Use command module
+  - name: Download metricbeat
+    command: curl -L -O https://artifacts.elastic.co/downloads/beats/metricbeat/metricbeat-7.4.0-amd64.deb
+
+    # Use command module
+  - name: install metricbeat
+    command: dpkg -i metricbeat-7.4.0-amd64.deb
+
+    # Use copy module
+  - name: drop in metricbeat config
+    copy:
+      src: /etc/ansible/files/metricbeat-config.yml
+      dest: /etc/metricbeat/metricbeat.yml
+
+    # Use command module
+  - name: enable and configure docker module for metric beat
+    command: metricbeat modules enable docker
+
+    # Use command module
+  - name: setup metric beat
+    command: metricbeat setup
+
+    # Use command module
+  - name: start metric beat
+    command: service metricbeat start
+```
 ### Using the Playbooks
 In order to use the playbooks, you will need to have an Ansible control node already configured. 
 SSH into the Jump Box for this purpose.
@@ -192,6 +225,8 @@ SSH into the Jump Box for this purpose.
 To use the playbooks, we must perform the following steps:
 - Copy the playbooks to the Ansible Control Node 
 - Run each playbook on the appropriate targets
+
+[Ansible Hosts](https://github.com/Nada-Sydney-AU/ELK-Stack-Microsoft-Azure/commit/d7bbf7017d2da1e202762a74970205205f950fd0)
 
 Update `hosts` file to specify which VMs to run each playbook on. Run the commands below:
 
