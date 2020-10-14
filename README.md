@@ -58,7 +58,7 @@ Ansible was used to automate the configuration of the ELK machine. No configurat
 
 The below diagram depicts the Ansible architecture:
 
-![Ansible Architecture]()
+![Ansible Architecture](Images/Ansible_Architecture.png)
 
 
 The playbook implements the following tasks:
@@ -258,6 +258,7 @@ After this, the commands below run the playbook:
 To verify success, wait five minutes to give ELK time to start up. 
 
 Then, run: `curl http://10.1.0.4:5601`. This is the address of Kibana. If the installation succeeded, this command should print HTML to the console.
-Open Browser `http://20.37.45.241:5601/app/kibana`
+
+To confirm Kibana is running open Browser and enter`http://20.37.45.241:5601/app/kibana`
 
 ![Kibana](Images/Kibana-Port-5601.PNG)
