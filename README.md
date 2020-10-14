@@ -78,7 +78,7 @@ CONTAINER ID        IMAGE               COMMAND                  CREATED        
 217ed9a25488        sebp/elk:761        "/usr/local/bin/star…"   6 days ago          Up Less than a second   0.0.0.0:5044->5044/tcp, 0.0.0.0:5601->5601/tcp, 0.0.0.0:9200->9200/tcp, 9300/tcp   elk
 ```
 
-[ELK Playbook](https://github.com/Nada-Sydney-AU/ELK-Stack-Microsoft-Azure/commit/e44590f9e56a50a114e9956755c7f28641f8bf8a)
+[ELK Playbook](https://github.com/Nada-Sydney-AU/ELK-Stack-Microsoft-Azure/blob/master/Ansible/ELK%20Playbook)
 
 ```yaml
 ---
@@ -150,7 +150,7 @@ These Beats allow us to collect the following information from each machine:
 - **Metricbeat**: Metricbeat detects changes in system metrics, such as CPU usage. We use it to detect SSH login attempts, failed `sudo` escalations, and CPU/RAM statistics.
 - **Packetbeat**: Packetbeat collects packets that pass through the NIC, similar to Wireshark. We use it to generate a trace of all activity that takes place on the network, in case later forensic analysis should be warranted.
 
-[File Beat Playbook](https://github.com/Nada-Sydney-AU/ELK-Stack-Microsoft-Azure/commit/c32a7eb6614f2f7d13f01281c78914e88ff4268d)
+[File Beat Playbook](https://github.com/Nada-Sydney-AU/ELK-Stack-Microsoft-Azure/blob/master/Ansible/File%20Beat%20Playbook)
 
 ```yaml
 ---
@@ -184,7 +184,7 @@ These Beats allow us to collect the following information from each machine:
   - name: Start filebeat service
     command: service filebeat start
 ``` 
-[Metricbeat Playbook](https://github.com/Nada-Sydney-AU/ELK-Stack-Microsoft-Azure/commit/d99d64d11d5caddb87f840d9b40f5204ad787d6c)
+[Metricbeat Playbook](https://github.com/Nada-Sydney-AU/ELK-Stack-Microsoft-Azure/blob/master/Ansible/Metric-Beat-Playbook)
 
 ```yaml
 ---
@@ -226,7 +226,7 @@ To use the playbooks, we must perform the following steps:
 - Copy the playbooks to the Ansible Control Node 
 - Run each playbook on the appropriate targets
 
-[Ansible Hosts](https://github.com/Nada-Sydney-AU/ELK-Stack-Microsoft-Azure/commit/d7bbf7017d2da1e202762a74970205205f950fd0)
+[Ansible Hosts](https://github.com/Nada-Sydney-AU/ELK-Stack-Microsoft-Azure/blob/master/Ansible/Ansible-Hosts)
 
 Update `hosts` file to specify which VMs to run each playbook on. Run the commands below:
 
