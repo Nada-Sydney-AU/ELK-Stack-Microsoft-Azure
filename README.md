@@ -2,83 +2,80 @@
 
 This document contains the following details:
 - Description of the Red-Team Network Topology
-- ELK Configuration
-  - Beats in Use
-  - Machines Being Monitored
-- How to Use the Ansible Build
 - Access Policies
+- ELK Configuration
+ - Beats in Use
+ - Machines Being Monitored
+- How to Use the Ansible Build
+
 
 ### Description of the Topology
 This repository includes code defining the infrastructure below. 
 
-![Red-Team-Microsoft-Azure](Images/Red-Team_AZURE_NRM.png)
+![Red-Team AZURE](https://github.com/Nada-Sydney-AU/ELK-Stack-Microsoft-Azure/blob/master/Network%20Diagrams/Red-Team_AZURE_NRM.png)
 
 The main purpose of this network is to expose a load-balanced and monitored instance of DVWA, the "D*mn Vulnerable Web Application"
 
-Load balancing ensures that the application will be highly **available**, in addition to restricting **inbound access** to the network. The load balancer ensures that work to process incoming traffic will be shared by both vulnerable web servers. Access controls will ensure that only authorized users — namely, ourselves — will be able to connect in the first place.
+An Azure load balancer is a Layer-4 (TCP, UDP) load balancer that provides high availability by distributing incoming traffic among healthy VMs. A load balancer health probe monitors a given port on each VM and only distributes traffic to an operational VM. In addition the Load Balancer restricts inbound access to the network. 
 
-Integrating an ELK server allows users to easily monitor the vulnerable VMs for changes to the **file systems of the VMs on the network**, as well as watch **system metrics**, such as CPU usage; attempted SSH logins; `sudo` escalation failures; etc.
+Access controls ensure that only authorised users will be able connect via secure connection from the Host Machine IP to the Jump Box (Gateway VM).
+
+Integrating an ELK server allows users to easily monitor the vulnerable virtual machines (DVWA 1,2 & 3) for changes to the file systems of the VMs on the network, as well as watch system metrics, such as CPU usage; attempted SSH logins and sudo escalation failures.
 
 The configuration details of each machine may be found below.
 
-| Name     |   Function  | IP Address | Operating System |
-|----------|-------------|------------|------------------|
-| Jump Box | Gateway     | 10.0.0.4   | Linux            |
-| DVWA 1   | Web Server  | 10.0.0.5   | Linux            |
-| DVWA 2   | Web Server  | 10.0.0.6   | Linux            |
-| DVWA 3   | Web Server  | 10.0.0.7   | Linux            |
-| ELK      | Monitoring  | 10.1.0.4   | Linux            |
-
-In addition to the above, Azure has provisioned a **load balancer** in front of all machines except for the jump box. The load balancer's targets are organized into the following availability zones:
-- **Availability Zone 1**: DVWA 1 + DVWA 2 + DVWA 3
-- **Availability Zone 2**: ELK
-
-## ELK Server Configuration
-The ELK VM exposes an Elastic Stack instance. **Docker** is used to download and manage an ELK container.
-
-Rather than configure ELK manually, we opted to develop a reusable Ansible Playbook to accomplish the task. This playbook is duplicated below.
-
-
-To use this playbook, one must log into the Jump Box, then issue: `ansible-playbook install_elk.yml elk`. This runs the `install_elk.yml` playbook on the `elk` host.
+| Name          |   Function   | IP Address | Public IPv4   | Operating System    |
+|---------------|--------------|------------|---------------|---------------------|
+| Jump Box      | Gateway      | 10.0.0.4   | 20.188.210.238| Linux               |
+| Load Balancer | Distribution | 10.0.0.4   | 52.187.226.165| Azure Load Balancer |
+| DVWA 1        | Web Server   | 10.0.0.5   |               | Linux               |
+| DVWA 2        | Web Server   | 10.0.0.6   |               | Linux               |
+| DVWA 3        | Web Server   | 10.0.0.7   |               | Linux               | 
+| ELK           | Monitoring   | 10.1.0.4   | 20.37.45.241  | Linux               |
 
 ### Access Policies
-The machines on the internal network are _not_ exposed to the public Internet. 
+The machines on the internal network are not exposed to the public Internet. 
 
-Only the **Jump Bx** machine can accept connections from the Internet. Access to this machine is only allowed from the IP address `64.72.118.76`
+Only the Jump Box machine can accept connections from the Internet. Access to this machine is only allowed from the designated local host IP address 27.33.14.54 
 
-
-Machines _within_ the network can only be accessed by **each other**. The DVWA 1, 2 and DVWA 3 VMs send traffic to the ELK server.
+Machines within the network can only be accessed by each other. The Jumpbox provisioner connects via SSH to the DVWA VMs and the ELK server. The DVWA Web Server machines send system logs to the ELK server to be forwarded for indexing.
 
 A summary of the access policies in place can be found in the table below.
 
-| Name     | Publicly Accessible | Allowed IP Addresses |
-|----------|---------------------|----------------------|
-| Jump Box | Yes                 | 64.72.118.76         |
-| ELK      | No                  | 10.0.0.1-254         |
-| DVWA 1   | No                  | 10.0.0.1-254         |
-| DVWA 2   | No                  | 10.0.0.1-254         |
-| DVWA 3   | No                  | 10.0.0.1-254         |
+| Name          | Publicly Accessible | Allowed IP Addresses |
+|---------------|---------------------|----------------------|
+| Jump Box      | Yes                 | 27.33.14.54          |
+| Load Balancer | Yes                 | 27.33.14.54          |
+| ELK           | No                  | 10.0.0.1-254         |
+| DVWA 1        | No                  | 10.0.0.1-254         |
+| DVWA 2        | No                  | 10.0.0.1-254         |
+| DVWA 3        | No                  | 10.0.0.1-254         |
 
+## ELK Server Configuration
+The ELK VM exposes an Elastic Stack instance. Docker is used to download and manage an ELK container.
 
-### Elk Configuration
+Ansible was used to automate the configuration of the ELK machine. No configuration was performed manually, which is advantageous because the configuration of our Server can be easliy be automated and run on every machine within your network. To set up the ELK Server we developed a reusable Ansible Playbook providing the steps to automate the configuration proccess. Ansible Playbooks are the files where Ansible code is written, Playbooks tell Ansible what to exectute sequentially and are written in YAML (yet another markup lanuage) format. Ansible is a helpful tool that allows for configuraton management, Ansible issues all commands from a central location to perform these tasks. 
 
-Ansible was used to automate configuration of the ELK machine. No configuration was performed manually, which is advantageous because...
-- _TODO: What is the main advantage of automating configuration with Ansible?_
+The below diagram depicts the Ansible architecture:
+
+![Ansible Architecture]()
+
 
 The playbook implements the following tasks:
-- _TODO: In 3-5 bullets, explain the steps of the ELK installation play. E.g., install Docker; download image; etc._
-- ...
-- ...
 
-The following screenshot displays the result of running `docker ps` after successfully configuring the ELK instance.
+ - Install docker
+ - Install apt module
+ - Install pip3
+ - Install pip module
+ - Download and launch a docker container
+
+The following displays the result of running docker ps after successfully configuring the ELK instance. (Images/DockerPs.png)
 
 ```bash
 $ sudo docker ps
 CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS                  PORTS                                                                              NAMES
 217ed9a25488        sebp/elk:761        "/usr/local/bin/star…"   6 days ago          Up Less than a second   0.0.0.0:5044->5044/tcp, 0.0.0.0:5601->5601/tcp, 0.0.0.0:9200->9200/tcp, 9300/tcp   elk
 ```
-
-!Docker Container](Images/docker_ps.png)
 
 The playbook is duplicated below.
 
@@ -136,7 +133,11 @@ The playbook is duplicated below.
 ```
 
 ### Target Machines & Beats
-This ELK server is configured to monitor the DVWA 1, 2 and DVWA 3 VMs, at `10.0.0.5` `10.0.0.6` and `10.0.0.7`, respectively.
+This ELK server is configured to monitor the following machines:
+
+-DVWA Web-1 at 10.0.0.5
+-DVWA Web-2 at 10.0.0.6
+-DVWA Web-3 at 10.0.0.7
 
 We have installed the following Beats on these machines:
 - Filebeat
@@ -148,7 +149,42 @@ These Beats allow us to collect the following information from each machine:
 - **Metricbeat**: Metricbeat detects changes in system metrics, such as CPU usage. We use it to detect SSH login attempts, failed `sudo` escalations, and CPU/RAM statistics.
 - **Packetbeat**: Packetbeat collects packets that pass through the NIC, similar to Wireshark. We use it to generate a trace of all activity that takes place on the network, in case later forensic analysis should be warranted.
 
-The playbook below installs Metricbeat on the target hosts. The playbook for installing Filebeat is not included, but looks essentially identical — simply replace `metricbeat` with `filebeat`, and it will work as expected.
+The playbook below installs Filebeat on the target hosts.
+
+```yaml
+---
+- name: Installing and Launch Filebeat
+  hosts: webservers
+  become: yes
+  tasks:
+    # Use command module
+  - name: Download filebeat .deb file
+    command: curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.4.0-amd64.deb
+
+    # Use command module
+  - name: Install filebeat .deb
+    command: dpkg -i filebeat-7.4.0-amd64.deb
+
+    # Use copy module
+  - name: Drop in filebeat.yml
+    copy:
+      src: /etc/ansible/files/filebeat-configuration.yml
+      dest: /etc/filebeat/filebeat.yml
+
+    # Use command module
+  - name: Enable and Configure System Module
+    command: filebeat modules enable system
+
+    # Use command module
+  - name: Setup filebeat
+    command: filebeat setup
+
+    # Use command module
+  - name: Start filebeat service
+    command: service filebeat start
+    ```
+
+The playbook below installs Metricbeat on the target hosts. 
 
 ```yaml
 ---
@@ -184,40 +220,31 @@ The playbook below installs Metricbeat on the target hosts. The playbook for ins
 ```
 
 ### Using the Playbooks
-In order to use the playbooks, you will need to have an Ansible control node already configured. We use the **Jump Box** for this purpose.
+In order to use the playbooks, you will need to have an Ansible control node already configured. 
+SSH into the Jump Box for this purpose.
 
 To use the playbooks, we must perform the following steps:
-- Copy the playbooks to the Ansible Control Node
+- Copy the playbooks to the Ansible Control Node 
 - Run each playbook on the appropriate targets
 
-The easiest way to copy the playbooks is to use Git:
+Update `hosts` file to specify which VMs to run each playbook on. Run the commands below:
 
 ```bash
 $ cd /etc/ansible
-$ mkdir files
-# Clone Repository + IaC Files
-$ git clone https://github.com/yourusername/project-1.git
-# Move Playbooks and hosts file Into `/etc/ansible`
-$ cp project-1/playbooks/* .
-$ cp project-1/files/* ./files
-```
+$ ls 
+$ nano hosts
 
-This copies the playbook files to the correct place.
-
-Next, you must create a `hosts` file to specify which VMs to run each playbook on. Run the commands below:
-
-```bash
-$ cd /etc/ansible
-$ cat > hosts <<EOF
+# List the IP Addresses of your webservers
+# You should have at least 2 IP addresses
 [webservers]
-10.0.0.5
-10.0.0.6
-10.0.0.7
+10.0.0.4 ansible_python_interpreter=/usr/bin/python3
+10.0.0.5 ansible_python_interpreter=/usr/bin/python3
+10.0.0.6 ansible_python_interpreter=/usr/bin/python3
 
-[elk]
-10.1.0.4
-EOF
-```
+# List the IP address of your ELK server
+# There should only be one IP address
+[elkservers]
+10.1.0.4 ansible_python_interpreter=/usr/bin/python3
 
 After this, the commands below run the playbook:
 
@@ -231,10 +258,6 @@ After this, the commands below run the playbook:
 To verify success, wait five minutes to give ELK time to start up. 
 
 Then, run: `curl http://10.1.0.4:5601`. This is the address of Kibana. If the installation succeeded, this command should print HTML to the console.
+Open Browser `http://20.37.45.241:5601/app/kibana`
 
-_TODO: Answer the following questions to fill in the blanks:_
-- _Which file is the playbook? Where do you copy it?_
-- _Which file do you update to make Ansible run the playbook on a specific machine? How do I specify which machine to install the ELK server on versus which to install Filebeat on?_
-- _Which URL do you navigate to in order to check that the ELK server is running?
-
-_As a **Bonus**, provide the specific commands the user will need to run to download the playbook, update the files, etc._
+![Kibana](Images/Kibana-Port-5601.PNG)
