@@ -12,7 +12,7 @@ This document contains the following details:
 ### Description of the Topology
 This repository includes code defining the infrastructure below. 
 
-![Red-Team AZURE](https://github.com/Nada-Sydney-AU/ELK-Stack-Microsoft-Azure/blob/master/Network%20Diagrams/Red-Team_AZURE_NRM.png)
+![Red-Team AZURE](Diagrams/Red-Team_AZURE_NRM.png)
 
 The main purpose of this network is to expose a load-balanced and monitored instance of DVWA, the "D*mn Vulnerable Web Application"
 
@@ -57,6 +57,7 @@ The ELK VM exposes an Elastic Stack instance. Docker is used to download and man
 Ansible was used to automate the configuration of the ELK machine. No configuration was performed manually, which is advantageous because the configuration of our Server can be easliy be automated and run on every machine within your network. To set up the ELK Server we developed a reusable Ansible Playbook providing the steps to automate the configuration proccess. Ansible Playbooks are the files where Ansible code is written, Playbooks tell Ansible what to exectute sequentially and are written in YAML (yet another markup lanuage) format. Ansible is a helpful tool that allows for configuraton management, Ansible issues all commands from a central location to perform these tasks. 
 
 The below diagram depicts the Ansible architecture:
+*source edureka!*
 
 ![Ansible Architecture](Images/Ansible_Architecture.png)
 
