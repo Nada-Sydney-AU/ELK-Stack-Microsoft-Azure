@@ -4,8 +4,8 @@ This document contains the following details:
 - Description of the Red-Team Network Topology
 - Access Policies
 - ELK Configuration
-- Beats in Use
-- Machines Being Monitored
+ - Beats in Use
+ - Machines Being Monitored
 - How to Use the Ansible Build
 
 
@@ -135,9 +135,9 @@ The playbook is duplicated below.
 ### Target Machines & Beats
 This ELK server is configured to monitor the following machines:
 
--DVWA 1 at 10.0.0.5
--DVWA 2 at 10.0.0.6
--DVWA 3 at 10.0.0.7
+-DVWA Web-1 at 10.0.0.5
+-DVWA Web-2 at 10.0.0.6
+-DVWA Web-3 at 10.0.0.7
 
 We have installed the following Beats on these machines:
 - Filebeat
@@ -227,34 +227,24 @@ To use the playbooks, we must perform the following steps:
 - Copy the playbooks to the Ansible Control Node 
 - Run each playbook on the appropriate targets
 
-The easiest way to copy the playbooks is to use Git:
+Update `hosts` file to specify which VMs to run each playbook on. Run the commands below:
 
 ```bash
 $ cd /etc/ansible
-$ mkdir files
-# Clone Repository + IaC Files
-$ git clone https://github.com/yourusername/project-1.git
-# Move Playbooks and hosts file Into `/etc/ansible`
-$ cp project-1/playbooks/* .
-$ cp project-1/files/* ./files
-```
+$ ls 
+$ nano hosts
 
-This copies the playbook files to the correct place.
-
-Next, you must create a `hosts` file to specify which VMs to run each playbook on. Run the commands below:
-
-```bash
-$ cd /etc/ansible
-$ cat > hosts <<EOF
+# List the IP Addresses of your webservers
+# You should have at least 2 IP addresses
 [webservers]
-10.0.0.5
-10.0.0.6
-10.0.0.7
+10.0.0.4 ansible_python_interpreter=/usr/bin/python3
+10.0.0.5 ansible_python_interpreter=/usr/bin/python3
+10.0.0.6 ansible_python_interpreter=/usr/bin/python3
 
-[elk]
-10.1.0.4
-EOF
-```
+# List the IP address of your ELK server
+# There should only be one IP address
+[elkservers]
+10.1.0.4 ansible_python_interpreter=/usr/bin/python3
 
 After this, the commands below run the playbook:
 
@@ -268,5 +258,6 @@ After this, the commands below run the playbook:
 To verify success, wait five minutes to give ELK time to start up. 
 
 Then, run: `curl http://10.1.0.4:5601`. This is the address of Kibana. If the installation succeeded, this command should print HTML to the console.
+Open Browser `http://20.37.45.241:5601/app/kibana`
 
 ![Kibana](Images/Kibana-Port-5601.PNG)
