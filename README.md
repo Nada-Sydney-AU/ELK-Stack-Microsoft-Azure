@@ -24,14 +24,14 @@ Integrating an ELK server allows users to easily monitor the vulnerable virtual 
 
 The configuration details of each machine may be found below.
 
-| Name          |   Function   | IP Address | Public IPv4   | Operating System    |
-|---------------|--------------|------------|---------------|---------------------|
-| Jump Box      | Gateway      | 10.0.0.4   | 20.188.210.238| Linux               |
-| Load Balancer | Distribution | 10.0.0.4   | 52.187.226.165| Azure Load Balancer |
-| DVWA 1        | Web Server   | 10.0.0.5   |               | Linux               |
-| DVWA 2        | Web Server   | 10.0.0.6   |               | Linux               |
-| DVWA 3        | Web Server   | 10.0.0.7   |               | Linux               | 
-| ELK           | Monitoring   | 10.1.0.4   | 20.37.45.241  | Linux               |
+| Name          |   Function   | IP Address | Public IPv4               | Operating System    |
+|---------------|--------------|------------|---------------------------|---------------------|
+| Jump Box      | Gateway      | 10.0.0.4   | Dynamically Allocated IP  | Linux               |
+| Load Balancer | Distribution | 10.0.0.4   | Dynamically Allocated IP  | Azure Load Balancer |
+| DVWA 1        | Web Server   | 10.0.0.5   |                           | Linux               |
+| DVWA 2        | Web Server   | 10.0.0.6   |                           | Linux               |
+| DVWA 3        | Web Server   | 10.0.0.7   |                           | Linux               | 
+| ELK           | Monitoring   | 10.1.0.4   | Dynamically Allocated IP  | Linux               |
 
 ### Access Policies
 The machines on the internal network are not exposed to the public Internet. 
@@ -42,14 +42,14 @@ Machines within the network can only be accessed by each other. The Jumpbox prov
 
 A summary of the access policies in place can be found in the table below.
 
-| Name          | Publicly Accessible | Allowed IP Addresses |
-|---------------|---------------------|----------------------|
-| Jump Box      | Yes                 | 27.33.14.54          |
-| Load Balancer | Yes                 | 27.33.14.54          |
-| ELK           | No                  | 10.0.0.1-254         |
-| DVWA 1        | No                  | 10.0.0.1-254         |
-| DVWA 2        | No                  | 10.0.0.1-254         |
-| DVWA 3        | No                  | 10.0.0.1-254         |
+| Name          | Publicly Accessible | Allowed IP Addresses      |
+|---------------|---------------------|---------------------------|
+| Jump Box      | Yes                 | Dynamically Allocated IP  |
+| Load Balancer | Yes                 | Dynamically Allocated IP  |
+| ELK           | No                  | 10.0.0.1-254              |
+| DVWA 1        | No                  | 10.0.0.1-254              |
+| DVWA 2        | No                  | 10.0.0.1-254              |
+| DVWA 3        | No                  | 10.0.0.1-254              |
 
 ## ELK Server Configuration
 The ELK VM exposes an Elastic Stack instance. Docker is used to download and manage an ELK container.
